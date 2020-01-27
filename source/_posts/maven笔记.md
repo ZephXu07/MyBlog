@@ -467,4 +467,4 @@ d) Deployment pollcy：部署策略；
 
  iii. Read-only：只读；
 
-5、 修改配置，将jar包上传到自定义仓库，然后从自定义仓库下载jar包；
+5、 修改配置，将jar包上传到自定义仓库，然后从自定义仓库下载jar包；a
