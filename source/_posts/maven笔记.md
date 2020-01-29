@@ -14,6 +14,8 @@ maven笔记
 **Maven**是什么？
 Maven是Apache下的项目管理工具，它由纯Java语言开发，可以帮助我们更方便的管理和构建Java项目。
 
+<!--more-->
+
 **为什么要使用Maven？**
 
 1、 jar包管理：

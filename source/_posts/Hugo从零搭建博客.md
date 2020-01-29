@@ -7,6 +7,8 @@ tags: [笔记]
 hugo版从零搭建个人博客
 ======================
 
+<!--more-->
+
 [B站教程](https://www.bilibili.com/video/av51574688)
 
 > 1：在[此处](https://github.com/gohugoio/hugo/releases)地址下找到Windows压缩文件下载

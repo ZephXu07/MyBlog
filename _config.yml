@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: zephxu
 subtitle: ''
-description: ''
+description: '纯小白，知足常乐'
 keywords:
-author: John Doe
-language: en
+author: zephxu
+language: zh-cn
 timezone: ''
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: https://zephxu07.github.io/
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -93,7 +93,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -101,3 +101,10 @@ deploy:
   type: git
   repo: https://github.com/ZephXu07/zephxu07.github.io.git
   branch: master
+  
+  
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
