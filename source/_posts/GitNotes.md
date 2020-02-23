@@ -1,7 +1,7 @@
 ---
 
 
-title: '''`GitNotes`'''
+title: GitNotes
 date: 2020-02-23 11:22:08
 tags: [笔记, git]
 ---
@@ -650,7 +650,7 @@ Changes not staged for commit:
 再使用针对错误一的方法：
 
 ```
-$ git checkout -- readme.txt
+gi$ git checkout -- readme.txt
 
 $ git status
 On branch master
