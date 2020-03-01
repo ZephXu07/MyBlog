@@ -1990,7 +1990,7 @@ Git会告诉我们，`.gitignore`的第3行规则忽略了该文件，于是我�
 - 忽略某些文件时，需要编写`.gitignore`；
 - `.gitignore`文件本身要放到版本库里，并且可以对`.gitignore`做版本管理！
 
-## 2、配置别名
+##  3 、配置别名
 
 有没有经常敲错命令？比如`git status`？`status`这个单词真心不好记。
 
@@ -2062,7 +2062,7 @@ Date:   Thu Aug 22 22:49:22 2013 +0800
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 ```
 
-### 配置文件
+**配置文件**
 
 配置Git的时候，加上`--global`是针对当前用户起作用的，如果不加，那只针对当前的仓库起作用。
 
@@ -2108,3 +2108,21 @@ $ cat .gitconfig
 **小结**
 
 给Git配置好别名，就可以输入命令时偷个懒。
+
+## 4、搭建Git服务器
+
+[廖雪峰教程](https://www.liaoxuefeng.com/wiki/896043488029600/899998870925664)
+
+[linux中如何修改用户主目录](https://www.xp.cn/b.php/38538.html)
+
+[ubuntu16.04安装git和配置ssh](https://blog.csdn.net/qq_26990831/article/details/51857399?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task)
+
+[Ubuntu 安装git和配置ssh(Coding实例)](https://blog.csdn.net/zhuming3834/article/details/74202583?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task)
+
+[关于ubuntu安装git并配置SSH Key](https://blog.csdn.net/guanhuazhan/article/details/89068560?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task)
+
+[Ubuntu使用git的时候发现没有.ssh文件](https://blog.csdn.net/qq_42711815/article/details/97616278)==注意是`sudo /etc/init.d/ssh restart`==
+
+**没成功，有缘再见。**
+
+# 十一、[使用SourceTree](https://www.liaoxuefeng.com/wiki/896043488029600/1317161920364578)
