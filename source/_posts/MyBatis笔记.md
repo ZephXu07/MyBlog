@@ -322,7 +322,7 @@ part5 主配置文件SqlMapConfig.xml说明：（注意顺序）
 
     -   Cause: org.apache.ibatis.builder.BuilderException: Error creating document instance. Cause: org.xml.sax.SAXParseException; lineNumber: 57; columnNumber: 17; 元素类型为 “configuration” 的内容必须匹配 “(properties?,settings?,typeAliases?,typeHandlers?,objectFactory?,objectWrapperFactory?,reflectorFactory?,plugins?,environments?,databaseIdProvider?,mappers?)”。
     -   原因：`<configuration>`标签中的小标签需要符合一定顺序：
-    -   properties–settings–typeAliases–typeHandlers–objectFactory–objectWrapperFactory–reflectorFactory–plugins–environments–databaseIdProvider–mappers\*\*
+    -   ==properties–settings–typeAliases–typeHandlers–objectFactory–objectWrapperFactory–reflectorFactory–plugins–environments–databaseIdProvider–mappers==
 
 4、 typeHandlers（类型处理器）
 

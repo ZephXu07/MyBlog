@@ -704,7 +704,7 @@ graphs](https://github.com/ZephXu07/IMG/raw/master/Snipaste_2019-10-02_18-07-38.
 
 
 
-#### [](#c-配置applicationContext-xml： "c)      配置applicationContext.xml：")c) 配置applicationContext.xml： 
+#### c) 配置applicationContext.xml：
 
 ```xml
  <?xml version="1.0" encoding="UTF-8"?>
@@ -1207,7 +1207,8 @@ xmlns:context="http://www.springframework.org/schema/context"       xmlns:tx="ht
 <property name="dataSource" ref="dataSource"/>        <property name="configLocation" value="classpath:sqlMapConfig.xml"/> 
 </bean>    
 <!--mapper工厂-->   
-<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">        <property name="basePackage" value="com.zephxu.mapper"/> 
+<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">        
+    <property name="basePackage" value="com.zephxu.mapper"/> 
 </bean>   
 <!--service-->   
 <bean name="accountService" class="com.zephxu.service.AccountServiceImpl"/></beans>                  
@@ -1223,7 +1224,8 @@ AccountMapper.xml：
    <?xml version="1.0" encoding="UTF-8"?>
    <!DOCTYPE mapper        PUBLIC"-//mybatis.org//DTD Mapper 3.0//EN"        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zephxu.mapper.AccountMapper">
-   <update id="transferOutMoney" parameterType="Account">        update account set money = money - #{transferMoney} where id = #{id}   
+   <update id="transferOutMoney" parameterType="Account">        
+       update account set money = money - #{transferMoney} where id = #{id}   
    </update>    
    <update id="transferInMoney" parameterType="Account"> 
    updat e account set money = money + #{transferMoney} where id = #{id}    	
