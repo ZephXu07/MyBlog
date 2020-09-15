@@ -14,6 +14,8 @@ tags: [笔记, Nginx]
 > 问题2：如果所有客户端的请求都发送给了服务器1
 > 问题3：客户端发送的请求可能是申请动态资源的，也有申请静态资源的
 
+<!-- more -->
+
 **服务器搭建集群后：**
 
 ![0](https://github.com/ZephXu07/IMG/raw/master/Nginx0.png)

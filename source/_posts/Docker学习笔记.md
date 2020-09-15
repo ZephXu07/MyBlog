@@ -25,6 +25,8 @@ tags: [笔记, docker]
 - Docker Swarm
 - CI\CD Jenkins
 
+<!-- more -->
+
 # Docker概述
 
 ## Docker为什么出现？

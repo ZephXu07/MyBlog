@@ -11,6 +11,8 @@ SLF4j是日志门面api，log4j、log4j2、logback才是真正的日志实现库
 
 [视频2](https://www.bilibili.com/video/BV1FJ411R78C)
 
+<!-- more -->
+
 # 各个库单独使用
 
 ## 1 log4j
