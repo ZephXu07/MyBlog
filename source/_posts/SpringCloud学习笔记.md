@@ -23,7 +23,7 @@ tags: [笔记, Java, SpringCloud]
 - Ajax + Json
 - …
 
-[原地址](https://blog.csp1999.top/blog/blog/26)
+[文档原地址](https://blog.csp1999.top/blog/blog/26)
 
 <!-- more -->
 
@@ -1817,7 +1817,7 @@ proxy-stream-allow-list: "*"
 
  Zull包含了对请求的**路由**(用来跳转的)和**过滤**两个最主要功能：
 
- 其中**路由功能负责将外部请求转发到具体的微服务实例上，是实现外部访问统一入口的基础**，而过**滤器功能则负责对请求的处理过程进行干预，是实现请求校验，服务聚合等功能的基础**。Zuul和Eureka进行整合，将Zuul自身注册为Eureka服务治理下的应用，同时从Eureka中获得其他服务的消息，也即以后的访问微服务都是通过Zuul跳转后获得。
+其中**路由功能负责将外部请求转发到具体的微服务实例上，是实现外部访问统一入口的基础**，而过**滤器功能则负责对请求的处理过程进行干预，是实现请求校验，服务聚合等功能的基础**。Zuul和Eureka进行整合，将Zuul自身注册为Eureka服务治理下的应用，同时从Eureka中获得其他服务的消息，也即以后的访问微服务都是通过Zuul跳转后获得。
 
  注意：Zuul服务最终还是会注册进Eureka
 
@@ -1828,31 +1828,101 @@ proxy-stream-allow-list: "*"
 - 路由
 - 过滤
 
-官方文档：https://github.com/Netflix/zuul/
+[官方文档](https://github.com/Netflix/zuul/)
 
 #### 入门案例
 
 **新建springcloud-zuul模块，并导入依赖**
 
-```
-<dependencies>    <!--导入zuul依赖-->    <dependency>        <groupId>org.springframework.cloud</groupId>        <artifactId>spring-cloud-starter-zuul</artifactId        <version>1.4.6.RELEASE</version>    </dependency>    <!--Hystrix依赖-->    <dependency>        <groupId>org.springframework.cloud</groupId>        <artifactId>spring-cloud-starter-hystrix</artifac        <version>1.4.6.RELEASE</version>    </dependency>    <!--dashboard依赖-->    <dependency>        <groupId>org.springframework.cloud</groupId>        <artifactId>spring-cloud-starter-hystrix-dashboar        <version>1.4.6.RELEASE</version>    </dependency>    <!--Ribbon-->    <dependency>        <groupId>org.springframework.cloud</groupId>        <artifactId>spring-cloud-starter-ribbon</artifact        <version>1.4.6.RELEASE</version>    </dependency>    <!--Eureka-->    <dependency>        <groupId>org.springframework.cloud</groupId>        <artifactId>spring-cloud-starter-eureka</artifact        <version>1.4.6.RELEASE</version>    </dependency>    <!--实体类+web-->    <dependency>        <groupId>com.haust</groupId>        <artifactId>springcloud-api</artifactId>        <version>1.0-SNAPSHOT</version>    </dependency>    <dependency>        <groupId>org.springframework.boot</groupId>        <artifactId>spring-boot-starter-web</artifactId>    </dependency>    <!--热部署-->    <dependency>        <groupId>org.springframework.boot</groupId>        <artifactId>spring-boot-devtools</artifactId>    </dependency></dependencies>
+```xml
+<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
+            <version>1.4.6.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zeph</groupId>
+            <artifactId>springcloud-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-hystrix</artifactId>
+            <version>1.4.6.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
+            <version>1.4.6.RELEASE</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-ribbon -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-ribbon</artifactId>
+            <version>1.4.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+            <version>1.4.6.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
 ```
 
 **application.yml**
 
-```
-server:  port: 9527spring:  application:    name: springcloud-zuul #微服务名称eureka:  client:    service-url:      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/  instance: #实例的id    instance-id: zuul9527.com    prefer-ip-address: true # 显示ipinfo:  app.name: haust.springcloud #项目名称  company.name: haust #公司名称zuul:  routes:    mydept.serviceId: springcloud-provider-dept    mydept.path: /mydept/**    ignored-services: "*"  # 不能再使用某个(*：全部)路径访问了，ignored ： 忽略,隐藏全部的~    prefix: /kuagn # 设置公共的前缀,实现隐藏原有路由
+```yml
+server:
+  port: 9527
+spring:
+  application:
+    name: springcloud-zuul
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/,http://localhost:7002/eureka/,http://localhost:7003/eureka/
+  instance:
+    instance-id: zuul9527.com
+    prefer-ip-address: true
+info:
+  app.name: zeph-springcloud
+  company.name: blog.zeph.com
+zuul:
+  routes:
+    mydept.serviceId: springcloud-provider-dept
+    mydept.path: /mydept/**
+  ignored-services: *
+  prefix: /zeph
 ```
 
-![\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-pc2gKhub-1590035798590)(C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20200520211031365.png)\]](https://img-blog.csdnimg.cn/20200521132228379.png#pic_center)
+![54](https://github.com/ZephXu07/IMG/raw/master/SpringCloud54.png)
 
 **主启动类**
 
-```
-@SpringBootApplication@EnableZuulProxy //开启Zuulpublic class ZuulApplication_9527 {    public static void main(String[] args) {        SpringApplication.run(ZuulApplication_9527.class,args);    }}
+```java
+@SpringBootApplication
+@EnableZuulProxy
+public class ZuulApplication_9527 {
+    public static void main(String[] args) {
+        SpringApplication.run(ZuulApplication_9527.class, args);
+    }
+}
 ```
 
-详情参考springcloud中文社区zuul组件 :https://www.springcloud.cc/spring-cloud-greenwich.html#_router_and_filter_zuul
+[详情参考springcloud中文社区zuul组件](https://www.springcloud.cc/spring-cloud-greenwich.html#_router_and_filter_zuul)
 
 ## 10. Spring Cloud Config 分布式配置
 
@@ -1896,20 +1966,44 @@ server:  port: 9527spring:  application:    name: springcloud-zuul #微服务名
 
 新建springcloud-config-server-3344模块导入pom.xml依赖
 
-```
-<dependencies>    <!--web-->    <dependency>        <groupId>org.springframework.boot</groupId>        <artifactId>spring-boot-starter-web</artifactId>    </dependency>    <!--config-->    <dependency>        <groupId>org.springframework.cloud</groupId>        <artifactId>spring-cloud-config-server</artifactId>        <version>2.1.1.RELEASE</version>    </dependency>    <!--eureka-->    <dependency>        <groupId>org.springframework.cloud</groupId>        <artifactId>spring-cloud-starter-eureka</artifactId>        <version>1.4.6.RELEASE</version>    </dependency></dependencies>
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-config-server</artifactId>
+    <version>2.1.1.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
 ```
 
 resource下创建application.yml配置文件，Spring Cloud Config服务器从git存储库（必须提供）为远程客户端提供配置：
 
-```
-server:  port: 3344spring:  application:    name: springcloud-config-server  # 连接码云远程仓库  cloud:    config:      server:        git:          #注意是https的而不是ssh          uri: https://gitee.com/cao_shi_peng/springcloud-config.git             # 通过 config-server可以连接到git，访问其中的资源以及配置~# 不加这个配置会报Cannot execute request on any known server 这个错：连接Eureka服务端地址不对# 或者直接注释掉eureka依赖 这里暂时用不到eurekaeureka:  client:    register-with-eureka: false    fetch-registry: false
+```yml
+server:
+  port: 3344
+spring:
+  application:
+    name: springcloud-config-server-3344
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/ZephXu07/springcloud-config.git
 ```
 
 主启动类
 
-```
-@EnableConfigServer //开启spring cloud config server服务@SpringBootApplicationpublic class Config_server_3344 {    public static void main(String[] args) {        SpringApplication.run(Config_server_3344.class,args);    }}
+```java
+@EnableConfigServer 
+//开启spring cloud config server服务
+@SpringBootApplication
+public class Config_server_3344 {    
+	public static void main(String[] args) { 
+    	SpringApplication.run(Config_server_3344.class,args);    
+    }
+}
 ```
 
 将本地git仓库springcloud-config文件夹下新建的application.yml提交到码云仓库：
@@ -1921,7 +2015,11 @@ server:  port: 3344spring:  application:    name: springcloud-config-server  # �
 HTTP服务具有以下格式的资源：
 
 ```
-/{application}/{profile}[/{label}]/{application}-{profile}.yml/{label}/{application}-{profile}.yml/{application}-{profile}.properties/{label}/{application}-{profile}.properties
+/{application}/{profile}[/{label}]
+/{application}-{profile}.yml
+/{label}/{application}-{profile}.yml
+/{application}-{profile}.properties
+/{label}/{application}-{profile}.properties
 ```
 
 其中“应用程序”作为`SpringApplication`中的`spring.config.name`注入（即常规的Spring Boot应用程序中通常是“应用程序”），“配置文件”是活动配置文件（或逗号分隔列表的属性），“label”是可选的git标签（默认为“master”）。
@@ -1950,34 +2048,79 @@ HTTP服务具有以下格式的资源：
 
 新建一个springcloud-config-client-3355模块，并导入依赖
 
-```
-<!--config--><!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-start<dependency>    <groupId>org.springframework.cloud</groupId>    <artifactId>spring-cloud-starter-config</artifactId>    <version>2.1.1.RELEASE</version></dependency><dependency>    <groupId>org.springframework.boot</groupId>    <artifactId>spring-boot-starter-actuator</artifactId></dependency><dependency>    <groupId>org.springframework.boot</groupId>    <artifactId>spring-boot-starter-web</artifactId></dependency>pendencies>
+```xml
+<!--config-->
+<dependency>    
+    <groupId>org.springframework.cloud</groupId>    
+    <artifactId>spring-cloud-starter-config</artifactId>    
+    <version>2.1.1.RELEASE</version>
+</dependency>
+<dependency>    
+    <groupId>org.springframework.boot</groupId>    
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+<dependency>   
+    <groupId>org.springframework.boot</groupId>    
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
 ```
 
 resources下创建application.yml和bootstrap.yml配置文件
 
 bootstrap.yml是系统级别的配置
 
-```
-# 系统级别的配置spring:  cloud:    config:      name: config-client # 需要从git上读取的资源名称，不要后缀      profile: dev      label: master      uri: http://localhost:3344
+```yml
+# 系统级别的配置
+spring:
+  cloud:
+    config:
+      name: config-client
+      uri: http://localhost:3344
+      profile: dev
+      label: master
 ```
 
 application.yml是用户级别的配置
 
-```
-# 用户级别的配置spring:  application:    name: springcloud-config-client
+```yml
+spring:
+  application:
+    name: springcloud-config-client--3355
 ```
 
 创建controller包下的ConfigClientController.java用于测试
 
-```
-@RestControllerpublic class ConfigClientController {    @Value("${spring.application.name}")    private String applicationName; //获取微服务名称    @Value("${eureka.client.service-url.defaultZone}")    private String eurekaServer; //获取Eureka服务    @Value("${server.port}")    private String port; //获取服务端的端口号    @RequestMapping("/config")    public String getConfig(){        return "applicationName:"+applicationName +         "eurekaServer:"+eurekaServer +         "port:"+port;    }}
+```java
+@RestController
+public class ConfigClientController {
+    @Value("${spring.application.name}")
+    private String applicationName;
+    //获取微服务名称
+    @Value("${eureka.client.service-url.defaultZone}")
+    private String eurekaServer;
+    //获取Eureka服务
+    @Value("${server.port}")
+    private String port;
+    //获取服务端的端口号
+    @RequestMapping("/config")
+    public String getConfig(){
+        return "applicationName:"
+                +applicationName +"eurekaServer:"
+                +eurekaServer + "port:"+port;
+    }
+}
+
 ```
 
 主启动类
 
-```
-@SpringBootApplicationpublic class ConfigClient {    public static void main(String[] args) {        SpringApplication.run(ConfigClient.class,args);    }}
+```java
+@SpringBootApplication
+public class ConfigClient {    
+	public static void main(String[] args) {  
+    	SpringApplication.run(ConfigClient.class,args);  
+    }
+}
 ```
 
 测试：
@@ -2002,20 +2145,41 @@ application.yml是用户级别的配置
 
 1.清空该模块的application.yml配置，并新建bootstrap.yml连接远程配置
 
-```
-spring:  cloud:    config:      name: config-eureka # 仓库中的配置文件名称      label: master      profile: dev      uri: http://localhost:3344
+```yml
+spring:
+  cloud:
+    config:
+      name: config-eureka # 仓库中的配置文件名称
+      label: master
+      profile: dev
+      uri: http://localhost:3344
+
 ```
 
 2.在pom.xml中添加spring cloud config依赖
 
-```
-<!--config--><!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config --><dependency>    <groupId>org.springframework.cloud</groupId>    <artifactId>spring-cloud-starter-config</artifactId>    <version>2.1.1.RELEASE</version></dependency>
+```xml
+<!--config-->
+<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-config</artifactId>
+    <version>2.1.1.RELEASE</version>
+</dependency>
+
 ```
 
 3.主启动类
 
-```
-@SpringBootApplication@EnableEurekaServer //EnableEurekaServer 服务端的启动类，可以接受别人注册进来~public class ConfigEurekaServer_7001 {    public static void main(String[] args) {        SpringApplication.run(ConfigEurekaServer_7001.class,args);    }}
+```java
+@SpringBootApplication
+@EnableEurekaServer //EnableEurekaServer 服务端的启动类，可以接受别人注册进来~
+public class ConfigEurekaServer_7001 {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigEurekaServer_7001.class,args);
+    }
+}
+
 ```
 
 4.测试
@@ -2032,14 +2196,40 @@ spring:  cloud:    config:      name: config-eureka # 仓库中的配置文件�
 
 同理导入spring cloud config依赖、清空application.yml 、新建bootstrap.yml配置文件并配置
 
-```
-spring:  cloud:    config:      name: config-dept      label: master      profile: dev      uri: http://localhost:3344
+```yml
+spring:
+  cloud:
+    config:
+      name: config-dept
+      label: master
+      profile: dev
+      uri: http://localhost:3344
+
 ```
 
 主启动类
 
-```
-@SpringBootApplication@EnableEurekaClient //在服务启动后自动注册到Eureka中！@EnableDiscoveryClient //服务发现~@EnableCircuitBreaker //public class ConfigDeptProvider_8001 {    public static void main(String[] args) {        SpringApplication.run(ConfigDeptProvider_8001.class,args);    }    //增加一个 Servlet    @Bean    public ServletRegistrationBean hystrixMetricsStreamServlet(){        ServletRegistrationBean registrationBean = new ServletRegistrationBean(new HystrixMetricsStreamServlet());        registrationBean.addUrlMappings("/actuator/hystrix.stream");        return registrationBean;    }}
+```java
+@SpringBootApplication
+@EnableEurekaClient //在服务启动后自动注册到Eureka中！
+@EnableDiscoveryClient //服务发现~
+@EnableCircuitBreaker //
+public class ConfigDeptProvider_8001 {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigDeptProvider_8001.class,args);
+    }
+
+    //增加一个 Servlet
+    @Bean
+    public ServletRegistrationBean hystrixMetricsStreamServlet(){
+        ServletRegistrationBean registrationBean = new ServletRegistrationBean(new HystrixMetricsStreamServlet());
+        registrationBean.addUrlMappings("/actuator/hystrix.stream");
+        return registrationBean;
+    }
+}
+
 ```
 
-测试 (略)
+## 11.总结
+
+![55](https://github.com/ZephXu07/IMG/raw/master/SpringCloud55.png)
