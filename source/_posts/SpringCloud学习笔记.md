@@ -108,7 +108,7 @@ tags: [笔记, Java, SpringCloud]
 [汉化](https://www.cnblogs.com/liuning8023/p/4493156.html)
 
 - 就目前而言，对于微服务，业界并没有一个统一的，标准的定义。
-- 但通常而言，微服务架构是一种架构模式，或者说是一种架构风格，**它体长将单一的应用程序划分成一组小的服务**，每个服务运行在其独立的自己的进程内，服务之间互相协调，互相配置，为用户提供最终价值，服务之间采用轻量级的通信机制(**HTTP**)互相沟通，每个服务都围绕着具体的业务进行构建，并且能狗被独立的部署到生产环境中，另外，应尽量避免统一的，集中式的服务管理机制，对具体的一个服务而言，应该根据业务上下文，选择合适的语言，工具(**Maven**)对其进行构建，可以有一个非常轻量级的集中式管理来协调这些服务，可以使用不同的语言来编写服务，也可以使用不同的数据存储。
+- 但通常而言，微服务架构是一种架构模式，或者说是一种架构风格，**它将单一的应用程序划分成一组小的服务**，每个服务运行在其独立的自己的进程内，服务之间互相协调，互相配置，为用户提供最终价值，服务之间采用轻量级的通信机制(**HTTP**)互相沟通，每个服务都围绕着具体的业务进行构建，并且能够被独立的部署到生产环境中，另外，应尽量避免统一的，集中式的服务管理机制，对具体的一个服务而言，应该根据业务上下文，选择合适的语言，工具(**Maven**)对其进行构建，可以有一个非常轻量级的集中式管理来协调这些服务，可以使用不同的语言来编写服务，也可以使用不同的数据存储。
 
 **再来从技术维度角度理解下：**
 
@@ -164,7 +164,7 @@ IDEA 工具里面使用Maven开发的一个个独立的小Moudel，它具体是�
 | 服务开发                               | SpringBoot、Spring、SpringMVC等                              |
 | 服务配置与管理                         | Netfix公司的Archaius、阿里的Diamond等                        |
 | 服务注册与发现                         | Eureka、Consul、Zookeeper等                                  |
-| 服务调用                               | Rest、PRC、gRPC                                              |
+| 服务调用                               | Rest、RPC、gRPC                                              |
 | 服务熔断器                             | Hystrix、Envoy等                                             |
 | 负载均衡                               | Ribbon、Nginx等                                              |
 | 服务接口调用(客户端调用服务的简化工具) | Fegin等                                                      |
@@ -236,7 +236,7 @@ Spring Cloud为开发人员提供了快速构建分布式系统中的一些常�
 - SpringBoot专注于开苏方便的开发单个个体微服务；
 - SpringCloud是关注全局的微服务协调整理治理框架，它将SpringBoot开发的一个个单体微服务，整合并管理起来，为各个微服务之间提供：配置管理、服务发现、断路器、路由、为代理、事件总栈、全局锁、决策竞选、分布式会话等等集成服务；
 - SpringBoot可以离开SpringCloud独立使用，开发项目，但SpringCloud离不开SpringBoot，属于依赖关系；
-- **SpringBoot专注于快速、方便的开发单个个体微服务，SpringCloud关注全局的服务治理框架；
+- SpringBoot专注于快速、方便的开发单个个体微服务，SpringCloud关注全局的服务治理框架；
 
 #### 3.3 Dubbo 和 SpringCloud技术选型
 
@@ -528,7 +528,7 @@ ConfigBean.java
 // RetryRule ： 会先按照轮询获取服务~，如果服务获取失败，则会在指定的时间内进行，重试   
     @Bean    
     public RestTemplate getRestTemplate(){        
-    return new RestTemplate();
+    	return new RestTemplate();
     }
 }
 ```
@@ -538,9 +538,9 @@ springcloud-provider-dept-8001的dao接口调用springcloud-api模块下的pojo�
 ```xml
  <!--我们需要拿到实体类，所以要配置api module-->        
  <dependency>            
- <groupId>com.haust</groupId>            
- <artifactId>springcloud-api</artifactId>            
- <version>1.0-SNAPSHOT</version>        
+     <groupId>com.haust</groupId>            
+     <artifactId>springcloud-api</artifactId>            
+     <version>1.0-SNAPSHOT</version>        
  </dependency>
 ```
 
@@ -548,11 +548,13 @@ springcloud-consumer-dept-80和springcloud-provider-dept-8001的pom.xml和父工
 
 [springboot最新版本------Access denied for user root localhost (using password: NO)](https://blog.csdn.net/qq_36669347/article/details/106452440)
 
+![56](https://github.com/ZephXu07/IMG/raw/master/SpringCloud56.png)
+
 ## 5. Eureka服务注册与发现
 
 #### 5.1 什么是Eureka
 
-- Netflix在涉及Eureka时，遵循的就是API原则.
+- Netflix在涉及Eureka时，遵循的就是AP原则.
 - Eureka是Netflix的有个子模块，也是核心模块之一。Eureka是基于REST的服务，用于定位服务，以实现云端中间件层服务发现和故障转移，服务注册与发现对于微服务来说是非常重要的，有了服务注册与发现，只需要使用服务的标识符，就可以访问到服务，而不需要修改服务调用的配置文件了，功能类似于Dubbo的注册中心，比如Zookeeper.
 
 #### 5.2 原理理解
@@ -569,7 +571,7 @@ springcloud-consumer-dept-80和springcloud-provider-dept-8001的pom.xml和父工
 ![在这里插入图片描述](https://github.com/ZephXu07/IMG/raw/master/SpringCloud6.png)
 
 - Eureka 包含两个组件：**Eureka Server** 和 **Eureka Client**.
-- Eureka Server 提供服务注册，各个节点启动后，回在EurekaServer中进行注册，这样Eureka Server中的服务注册表中将会储存所有课用服务节点的信息，服务节点的信息可以在界面中直观的看到.
+- Eureka Server 提供服务注册，各个节点启动后，会在EurekaServer中进行注册，这样Eureka Server中的服务注册表中将会储存所有课用服务节点的信息，服务节点的信息可以在界面中直观的看到.
 - Eureka Client 是一个Java客户端，用于简化EurekaServer的交互，客户端同时也具备一个内置的，使用轮询负载算法的负载均衡器。在应用启动后，将会向EurekaServer发送心跳 (默认周期为30秒) 。如果Eureka Server在多个心跳周期内没有接收到某个节点的心跳，EurekaServer将会从服务注册表中把这个服务节点移除掉 (默认周期为90s).
 
 - **三大角色**
@@ -1029,10 +1031,11 @@ eureka:
     defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
 ```
 
-主启动类加上[@EnableEurekaClient](https://github.com/EnableEurekaClient)注解，开启Eureka
+主启动类加上@EnableEurekaClient注解，开启Eureka
 
 ```java
-//Ribbon 和 Eureka 整合以后，客户端可以直接调用，不用关心IP地址和端口号@SpringBootApplication
+//Ribbon 和 Eureka 整合以后，客户端可以直接调用，不用关心IP地址和端口号
+@SpringBootApplication
 @EnableEurekaClient //开启Eureka 客户端
 public class DeptConsumer_80 {    
 	public static void main(String[] args) {        
@@ -1127,8 +1130,8 @@ MyRule.java
 public class MyRule {   
     @Bean    
     public IRule myRule(){        
-    return new MyRandomRule();
-    //默认是轮询RandomRule,现在自定义为自己的    
+        return new MyRandomRule();
+        //默认是轮询RandomRule,现在自定义为自己的    
     }
 }
 ```
@@ -1257,12 +1260,13 @@ Feign，主要是社区版，大家都习惯面向接口编程。这个是很多
    <!--Feign的依赖-->
    <dependency>    
        <groupId>org.springframework.cloud</groupId>    
-       <artifactId>spring-cloud-starter-feign</artifactId>    <version>1.4.6.RELEASE</version>
+       <artifactId>spring-cloud-starter-feign</artifactId>    
+       <version>1.4.6.RELEASE</version>
    </dependency>
-   ```
-
-   通过Ribbon实现：—-原来的controller：DeptConsumerController.java
-
+```
+   
+通过Ribbon实现：—-原来的controller：DeptConsumerController.java
+   
    ```java
    package com.haust.springcloud.controller;
    
@@ -1376,14 +1380,12 @@ import org.springframework.cloud.netflix.ribbon.RibbonClient;
 //Ribbon 和 Eureka 整合以后，客户端可以直接调用，不用关心IP地址和端口号
 @SpringBootApplication
 @EnableEurekaClient
-//在微服务启动的时候就能加载自定义的Ribbon类(自定义的规则会覆盖原有默认的规则)
-@RibbonClient(name = "SPRINGCLOUD-PROVIDER-DEPT",configuration = MyRule.class)//开启负载均衡,并指定自定义的规则
+@EnableFeignClients(basePackages = {"com.kuang.springcloud"})
 public class DeptConsumer_80 {
     public static void main(String[] args) {
-        SpringApplication.run(DeptConsumer_80.class, args);
+        SpringApplication.run(DeptConsumer_80.class,args);
     }
 }
-
 ```
 
 1. 改造springcloud-api模块
@@ -1393,13 +1395,13 @@ public class DeptConsumer_80 {
    ```xml
    <!--Feign的依赖-->
    <dependency>
-	<groupId>org.springframework.cloud</groupId>
+		<groupId>org.springframework.cloud</groupId>
    	<artifactId>spring-cloud-starter-feign</artifactId>
-	<version>1.4.6.RELEASE</version>
+		<version>1.4.6.RELEASE</version>
    </dependency>
    ```
    
-   新建service包，并新建DeptClientService.java接口，
+   2.新建service包，并新建DeptClientService.java接口，
    
    ```java
    //@FeignClient:微服务客户端注解,value:指定微服务的名字,这样就可以使Feign客户端直接找到对应的微服务
@@ -1413,6 +1415,35 @@ public class DeptConsumer_80 {
        public Dept addDept(Dept dept);
    }
    ```
+
+3、实现类
+
+```java
+@RestController
+public class DeptController {
+
+    @Autowired
+    private DeptClientService service = null;
+
+    @RequestMapping("/consumer/dept/add")
+    public boolean add(Dept dept){
+        return this.service.addDept(dept);
+    }
+
+    @RequestMapping("/consumer/dept/get/{id}")
+    public Dept get(@PathVariable("id") Long id){
+        return this.service.queryById(id);
+    }
+
+    @RequestMapping("/consumer/dept/list")
+    public List<Dept> list(){
+        return this.service.queryAll();
+    }
+
+}
+```
+
+
 
 #### 7.3 Feign和Ribbon如何选择？
 
@@ -1695,7 +1726,7 @@ feign:
 #### 8.6 服务熔断和降级的区别
 
 - **服务熔断—->服务端**：某个服务超时或异常，引起熔断~，类似于保险丝(自我熔断)
-- **服务降级—->客户端**：从整体网站请求负载考虑~，当某个服务熔断或者关闭之后，服务将不再被调用~，此时在客户端，我们可以准备一个 FallBackFactory ，返回一个默认的值(缺省值)。会导致整体的服务下降，但是好歹能用，比直接挂掉强。
+- **服务降级—->客户端**：从整体网站请求负载考虑，当某个服务熔断或者关闭之后，服务将不再被调用，此时在客户端，我们可以准备一个 FallBackFactory ，返回一个默认的值(缺省值)。会导致整体的服务下降，但是好歹能用，比直接挂掉强。
 - 触发原因不太一样，服务熔断一般是某个服务（下游服务）故障引起，而服务降级一般是从整体负荷考虑；管理目标的层次不太一样，熔断其实是一个框架级的处理，每个微服务都需要（无层级之分），而降级一般需要对业务有层级之分（比如降级一般是从最外围服务开始）
 - 实现方式不太一样，服务降级具有代码侵入性(由控制器完成/或自动降级)，熔断一般称为**自我熔断**。
 
